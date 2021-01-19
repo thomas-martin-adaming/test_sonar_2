@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/WEB-INF/css/style.css" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+</h:head>
+<h:body>
+	<p:growl id="messages" showDetail="true" />
+	<h3>Formulaire HTML</h3>
+	<h:form id="form1">
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Nom" />
+			<p:inputText value="#{fermeManagedBean.ferme.nom}" />
+			<h:outputLabel value="Rue" />
+			<p:inputText value="#{fermeManagedBean.ferme.adresse.rue}" />
+			<h:outputLabel value="Ville" />
+			<p:inputText value="#{fermeManagedBean.ferme.adresse.ville}" />
+			<p:outputLabel value="Departement" />
+			<p:selectOneMenu 
+			converter="deptConverter"
+			value="#{fermeManagedBean.ferme.departement}">
+				<f:selectItem itemValue="#{null}" itemLabel="--Sélectionner--" />
+				<f:selectItems value="#{fermeManagedBean.listDepartement}"
+				var="d" itemLabel="#{d.nom}" itemValue="#{d}"
+				/>
+			</p:selectOneMenu>
+			<h:commandButton action="#{fermeManagedBean.enregistrerFerme()}"
+				value="Enregistrer" />
+		</h:panelGrid>
+	</h:form>
+	<h3>Liste des fermes</h3>
+	<h:form id="form3">
+		<p:dataTable value="#{fermeManagedBean.listFermes}" var="f">
+			<p:column headerText="Nom">
+				<h:outputText value="#{f.nom}"></h:outputText>
+			</p:column>
+			<p:column headerText="Rue">
+				<h:outputText value="#{f.adresse.rue}"></h:outputText>
+			</p:column>
+			<p:column headerText="Ville">
+				<h:outputText value="#{f.adresse.ville}"></h:outputText>
+			</p:column>
+			<p:column headerText="Departement">
+				<h:outputText value="#{f.departement.nom}"></h:outputText>
+			</p:column>
+			<p:column headerText="Action">
+				<h:commandButton action="#{fermeManagedBean.supprimerFerme(f)}"
+					value="Supprimer" />
+				<h:commandButton action="#{fermeManagedBean.edit(f)}" value="Editer" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
